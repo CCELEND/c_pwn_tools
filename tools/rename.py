@@ -1,6 +1,7 @@
 #coding=utf-8
 import os
 
+# 获取路径下文件名列表
 def get_filename_list(directory):
     filename_list = os.listdir(directory)
     return filename_list
@@ -24,9 +25,11 @@ while True:
 				if delete_strings == 'quit':
 					print("bye~")
 					break
+					
 				for i in range(len(filename_list)):
 					filename = filename_list[i]
-					if filename.find(delete_strings)!=-1:
+
+					if filename.find(delete_strings) != -1:
 						
 						new_filename = filename.replace(delete_strings,"")
 						filename = directory + "\\" + filename
@@ -51,15 +54,14 @@ while True:
 				replace_strings = input('Enter replacement strings:\n')
 				for i in range(len(filename_list)):
 					filename = filename_list[i]
-					if filename.find(replaced_strings)!=-1:
 
+					if filename.find(replaced_strings) != -1:
 						new_filename = filename.replace(replaced_strings, replace_strings)
 						filename = directory + "\\" + filename
 						new_filename = directory + "\\" +new_filename
 						os.rename(filename, new_filename)
 			except:
 				print("error :(")
-
 	elif choice == 'exit':
 		break
 	else:
