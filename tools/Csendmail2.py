@@ -120,6 +120,11 @@ def get_num_from_string(string):
 
 MB = 1048576
 KB = 1024
+MB_LIMIT = 30
+KB_LIMIT = 30720
+THREAD_LIMIT = 16
+SMTP_PORT = 25
+SMTP_SSL_PORT = 465
 
 thread_state = True
 # 发送邮件的工作线程
@@ -167,7 +172,7 @@ def send_mail(thread_name, sender, password, host, port,
 				attachment_name_length = generate_random_number_end_at(20)
 				attachment_name = generate_random_string_file_name(attachment_name_length)
 
-				if atlength.find('MB') != -1:
+				if 'MB' in atlength:
 					attachment_contents_length = generate_random_number_end_at(int(atlength_num * MB))
 				else:
 					attachment_contents_length = generate_random_number_end_at(int(atlength_num * KB))
@@ -223,7 +228,7 @@ def is_error_arg(param_dir):
 		elif param == '-t' or param == 'thread':
 			try:
 				thread_num = int(value)
-				if thread_num > 0 and thread_num <= 16:
+				if thread_num > 0 and thread_num <= THREAD_LIMIT:
 					is_error_flag = False
 				else:
 					return True
@@ -241,7 +246,7 @@ def is_error_arg(param_dir):
 		elif param == '-po' or param == 'port':
 			try:
 				port = int(value)
-				if port == 465 or port == 25:
+				if port == SMTP_SSL_PORT or port == SMTP_PORT:
 					is_error_flag = False
 				else:
 					return True
@@ -283,9 +288,9 @@ def is_error_arg(param_dir):
 					'(^[0-9]{1,2}(\\.[0-9]{1,2})?MB$)|(^[0-9]{1,5}(\\.[0-9]{1,2})?KB$)')
 				if (pattern.search(value)):
 					num = get_num_from_string(value)
-					if value.find('MB') != -1 and num > 30:
+					if 'MB' in value and num > MB_LIMIT:
 						return True
-					elif value.find('KB') != -1 and num > 30720:
+					elif 'KB' in value and num > KB_LIMIT:
 						return True
 					else:
 						is_error_flag = False;
