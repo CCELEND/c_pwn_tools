@@ -90,6 +90,7 @@ def generate_attachment(attachment_path, content, file_type):
 		with open(attachment_path, 'wb') as file:
 			file.write(content.encode("utf-8"))
 
+# 删除附件目录下的文件
 def delete_attachment():
 	if os.path.exists("attachment"):
 		# 遍历目录中的所有文件和子目录
@@ -99,7 +100,7 @@ def delete_attachment():
 				if os.path.isfile(file_path) or os.path.islink(file_path):
 					os.unlink(file_path)  # 删除文件
 				elif os.path.isdir(file_path):
-					shutil.rmtree(file_path)  # 删除目录
+					shutil.rmtree(file_path)  # 删除子目录
 			except Exception as e:
 				print("\033[31m\033[1m[-]\033[0m Failed to delete file or directory: " + str(e))
 		print("\033[32m\033[1m[+]\033[0m Successfully deleted files in the [attachment].")
@@ -189,10 +190,12 @@ def send_mail(thread_name, sender, password, host, port,
 
 	yag.close()
 
+# 显示参数
 def parameter_display(param_dir):
 	print("\033[32m\033[1m[+]\033[0m Parameter analysis:")
 	print(param_dir)
 
+# 单参数处理
 def single_parameter(param):
 	if param == '-h' or param == '--help':
 		help()
@@ -208,7 +211,7 @@ def single_parameter(param):
 		exit()
 
 
-# 判断是否错误的参数
+# 判断是否存在错误的参数，有错误就返回 true
 def is_error_arg(param_dir):
 	is_error_flag = True;
 	is_attachment_mode = False
@@ -245,7 +248,7 @@ def is_error_arg(param_dir):
 			except:
 				return True
 
-		# 需要符合邮件地址正则
+		# 需要符合邮件地址正则（简单正则）
 		elif param == '-re' or param == 'receiver' or param == '-se' or param == 'sender':
 			pattern = re.compile(
 				'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
