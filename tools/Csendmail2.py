@@ -10,7 +10,7 @@ import sys
 import re
 import os
 
-logo_color="""\033[32m\033[1m
+LOGO_COLOR="""\033[32m\033[1m
 	  .oooooo.                                        .o8                               o8o  oooo    .oooo.   
 	 d8P'  `Y8b                                      "888                               `"'  `888  .dP""Y88b  
 	888           .oooo.o  .ooooo.  ooo. .oo.    .oooo888  ooo. .oo.  .oo.    .oooo.   oooo   888        ]8P' 
@@ -25,34 +25,36 @@ logo_color="""\033[32m\033[1m
 	                                               Version 2.2\033[0m   
 """
 
+HELP_INFO="""This is the Csendmail 2.2, Usage:
+  python3 Csendmail2.py [options] [...] or ./Csendmail2.py [options] [...]
+    -t <thread number>, --thread=<thread number>
+        The maximum number of threads to be enabled is 16
+    -n <emails number>, --mail=<emails number>
+        The number of emails sent by each thread
+    -se <sender address>, --sender=<sender address>
+        Sender address
+    -re <receiver address>, --receiver=<receiver address>
+        Receiver address
+    -ho <smtp server>, --host=<smtp server>
+        Smtp server address
+    -pa <authorization code>, --password=<authorization code>
+        Authorization code
+    -po <port number>, --port=<port number>
+        SMTP server port: 465 or 25
+    -at <true|false>, --attachment=<true|false>
+        Enable attachment mode or not
+    -atl <attachment length>, --atlength=<attachment length>
+        Maximum length of attachment: 30MB or 30720KB at most; The minimum is 0KB    
+        This option is required when enable attachment mode
+    -de, --delete
+        Delete files in the attachment directory
+    -v, --version
+        Version information
+    -h, --help
+        Help information"""
+
 def help():
-	print("This is the Csendmail 2.2, Usage:")
-	print("  python3 Csendmail2.py [options] [...] or ./Csendmail2.py [options] [...]")
-	print("    -t <thread number>, --thread=<thread number>")
-	print("        The maximum number of threads to be enabled is 16")
-	print("    -n <emails number>, --mail=<emails number>")
-	print("        The number of emails sent by each thread")
-	print("    -se <sender address>, --sender=<sender address>")
-	print("        Sender address")
-	print("    -re <receiver address>, --receiver=<receiver address>")
-	print("        Receiver address")
-	print("    -ho <smtp server>, --host=<smtp server>")
-	print("        Smtp server address")
-	print("    -pa <authorization code>, --password=<authorization code>")
-	print("        Authorization code")
-	print("    -po <port number>, --port=<port number>")
-	print("        SMTP server port: 465 or 25")
-	print("    -at <true|false>, --attachment=<true|false>")
-	print("        Enable attachment mode or not")
-	print("    -atl <attachment length>, --atlength=<attachment length>")
-	print("        Maximum length of attachment: 30MB or 30720KB at most; The minimum is 0KB")
-	print("        This option is required when enable attachment mode")
-	print("    -de, --delete")
-	print("        Delete files in the attachment directory")
-	print("    -v, --version")
-	print("        Version information")
-	print("    -h, --help")
-	print("        Help information")
+	print(HELP_INFO)
 
 # 生成随机字符串，包括大小写字母、数字和标点符号
 def generate_random_string_with_visible_chars(length):
@@ -293,7 +295,7 @@ def is_error_arg(param_dir):
 
 def main():
 
-	print(logo_color)
+	print(LOGO_COLOR)
 	if len(sys.argv) == 1:
 		help()
 		exit()
@@ -419,7 +421,7 @@ def main():
 			print("\033[32m\033[1m[+]\033[0m Email sending completed.\033[0m")
 		else:
 			print("\033[31m\033[1m[-]\033[0m Email sending failed!\033[0m")
-			
+
 	except Exception as e:
 		print("\033[31m\033[1m[-]\033[0m Failed to start thread: " + str(e))
 
