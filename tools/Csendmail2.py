@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import yagmail
+import shutil
 import random
 import string
 import threading
@@ -92,18 +93,22 @@ def generate_attachment(attachment_path, content, file_type):
 
 # 删除附件目录下的文件
 def delete_attachment():
-	if os.path.exists("attachment"):
-		# 遍历目录中的所有文件和子目录
-		for filename in os.listdir("attachment"):
-			file_path = os.path.join("attachment", filename)
-			try:
-				if os.path.isfile(file_path) or os.path.islink(file_path):
-					os.unlink(file_path)  # 删除文件
-				elif os.path.isdir(file_path):
-					shutil.rmtree(file_path)  # 删除子目录
-			except Exception as e:
-				print("\033[31m\033[1m[-]\033[0m Failed to delete file or directory: " + str(e))
-		print("\033[32m\033[1m[+]\033[0m Successfully deleted files in the [attachment].")
+	# 定义文件路径
+	attachment_path = "attachment"
+
+	# 检查文件路径是否存在
+	if os.path.exists(attachment_path):
+		try:
+			# 使用with语句来处理文件和目录的删除
+			with os.scandir(attachment_path) as dir_list:
+				for entry in dir_list:
+					if entry.is_file() or entry.is_symlink():
+						os.remove(entry.path)
+					elif entry.is_dir():
+						shutil.rmtree(entry.path)
+			print("\033[32m\033[1m[+]\033[0m Successfully deleted files in the [attachment].")
+		except Exception as e:
+			print("\033[31m\033[1m[-]\033[0m Failed to delete files in the [attachment]: " + str(e))
 	else:
 		print("\033[31m\033[1m[-]\033[0m Attachment directory [attachment] does not exist!")
 
@@ -202,13 +207,13 @@ def parameter_display(param_dir):
 
 # 单参数处理
 def single_parameter(param):
-	if param == '-h' or param == '--help':
+	if param in ['-h', '--help']:
 		help()
 		exit()
-	elif param == '-de' or param == '--delete':
+	elif param in ['-de', '--delete']:
 		delete_attachment()
 		exit()
-	elif param == '-v' or param =='--version':
+	elif param in ['-v', '--version']:
 		exit()
 	else:
 		print("\033[31m\033[1m[-]\033[0m Parameter error!")
@@ -222,10 +227,10 @@ def is_error_arg(param_dir):
 	is_attachment_mode = False
 
 	for param, value in param_dir.items():
-		if value == None and param != '-atl' and param != 'atlength':
+		if value is None and param not in ['-atl', 'atlength']:
 			return True
-		# 线程数应该是数字(0, 16]
-		elif param == '-t' or param == 'thread':
+
+		elif param in ['-t', 'thread']:
 			try:
 				thread_num = int(value)
 				if thread_num > 0 and thread_num <= THREAD_LIMIT:
@@ -234,7 +239,7 @@ def is_error_arg(param_dir):
 					return True
 			except:
 				return True
-		elif param == '-n' or param == 'mail':
+		elif param in ['-n', 'mail']:
 			try:
 				mail_num = int(value)
 				if mail_num > 0:
@@ -243,7 +248,7 @@ def is_error_arg(param_dir):
 					return True
 			except:
 				return True
-		elif param == '-po' or param == 'port':
+		elif param in ['-po', 'port']:
 			try:
 				port = int(value)
 				if port == SMTP_SSL_PORT or port == SMTP_PORT:
@@ -253,8 +258,8 @@ def is_error_arg(param_dir):
 			except:
 				return True
 
-		# 需要符合邮件地址正则（简单正则）
-		elif param == '-re' or param == 'receiver' or param == '-se' or param == 'sender':
+		# 检查邮件地址的正则表达式
+		elif param in ['-re', 'receiver', '-se', 'sender']:
 			pattern = re.compile(
 				'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
 			if (pattern.search(value)):
@@ -262,7 +267,7 @@ def is_error_arg(param_dir):
 			else:
 				return True
 
-		elif param == '-pa' or param == 'password':
+		elif param in ['-pa', 'password']:
 			pattern = re.compile(
 				'^[a-zA-Z0-9]{16,16}$')
 			if (pattern.search(value)):
@@ -270,7 +275,7 @@ def is_error_arg(param_dir):
 			else:
 				return True
 
-		elif param == '-at' or param == 'attachment':
+		elif param in ['-at', 'attachment']:
 			if value == 'true':
 				is_attachment_mode = True
 				is_error_flag = False;
@@ -280,9 +285,9 @@ def is_error_arg(param_dir):
 			else:
 				return True
 
-		elif param == '-atl' or param == 'atlength':
+		elif param in ['-atl', 'atlength']:
 			if is_attachment_mode:
-				if value == None:
+				if value is None:
 					return True
 				pattern = re.compile(
 					'(^[0-9]{1,2}(\\.[0-9]{1,2})?MB$)|(^[0-9]{1,5}(\\.[0-9]{1,2})?KB$)')
