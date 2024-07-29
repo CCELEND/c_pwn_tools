@@ -26,8 +26,12 @@ LOGO_COLOR="""\033[32m\033[1m
 	                                               Version 2.2\033[0m   
 """
 
-HELP_INFO="""This is the Csendmail 2.2, Usage:
-  python3 Csendmail2.py [options] [...] or ./Csendmail2.py [options] [...]
+HELP_INFO="""\033[35m\033[1mNAME\033[0m
+    Csendmail2.py - send emails and attachments with random string content
+\033[35m\033[1mSYNOPSIS\033[0m
+    python3 Csendmail2.py [options...] or 
+    ./Csendmail2.py [options...]
+\033[35m\033[1mDESCRIPTION\033[0m
     -t <thread number>, --thread=<thread number>
         The maximum number of threads to be enabled is 16
     -n <emails number>, --mail=<emails number>
