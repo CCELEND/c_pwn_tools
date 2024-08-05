@@ -198,7 +198,7 @@ def send_mail(thread_name, sender, password, host, port,
 				attachment_contents = generate_random_string_with_visible_chars(attachment_contents_length)
 				# 创建附件文件 
 				attachment_path = 'attachment/' + attachment_name
-				generate_attachment(attachment_path, attachment_contents, file_type='bin')
+				generate_attachment(attachment_path, attachment_contents, file_type = 'bin')
 
 			#发送邮件
 				yag.send(to = receiver, subject = subject_contents, contents = [body_contents, attachment_path])
@@ -208,6 +208,7 @@ def send_mail(thread_name, sender, password, host, port,
 		except Exception as e:
 			print('  \033[31m\033[1m[-]\033[0m   {}    {}          Email sending failed: {}'.format(thread_name, str(i).zfill(3), str(e)))
 			thread_state = False
+			yag.close()
 			exit()
 
 	yag.close()
