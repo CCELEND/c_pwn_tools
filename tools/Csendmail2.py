@@ -11,7 +11,7 @@ import sys
 import re
 import os
 
-LOGO_COLOR="""\033[32m\033[1m
+LOGO_COLOR = """\033[32m\033[1m
 	  .oooooo.                                        .o8                               o8o  oooo    .oooo.   
 	 d8P'  `Y8b                                      "888                               `"'  `888  .dP""Y88b  
 	888           .oooo.o  .ooooo.  ooo. .oo.    .oooo888  ooo. .oo.  .oo.    .oooo.   oooo   888        ]8P' 
@@ -26,7 +26,7 @@ LOGO_COLOR="""\033[32m\033[1m
 	                                               Version 2.2\033[0m   
 """
 
-HELP_INFO="""\033[35m\033[1mNAME\033[0m
+HELP_INFO = """\033[35m\033[1mNAME\033[0m
     Csendmail2.py - send emails and attachments with random string content
 \033[35m\033[1mSYNOPSIS\033[0m
     python3 Csendmail2.py [options...] or 
@@ -61,10 +61,19 @@ HELP_INFO="""\033[35m\033[1mNAME\033[0m
 def help():
 	print(HELP_INFO)
 
+def err_msg(msg):
+	print("\033[31m\033[1m[-]\033[0m " + msg)
+
+def good_msg(msg):
+	print("\033[32m\033[1m[+]\033[0m " + msg)
+
+def note_msg(msg):
+	print("\033[34m\033[1m[*]\033[0m " + msg)
+
 # 生成随机字符串，包括大小写字母、数字和标点符号
 def generate_random_string_with_visible_chars(length):
 	characters = string.ascii_letters + string.digits + string.punctuation
-	random_string = ''.join(random.choices(characters, k=length))
+	random_string = ''.join(random.choices(characters, k = length))
 	return random_string
    
 # 生成一个1到num_end范围内的随机整数 
@@ -82,14 +91,14 @@ def create_attachment_directory():
 	if not os.path.exists("attachment"):
 		try:
 			os.makedirs("attachment")
-			print("\033[32m\033[1m[+]\033[0m Attachment directory [attachment] has been created.")
+			good_msg("Attachment directory [attachment] has been created.")
 		except Exception as e:
-			print("\033[31m\033[1m[-]\033[0m Attachment directory [attachment] creation failed: " + str(e))
+			err_msg("Attachment directory [attachment] creation failed: " + str(e))
 
 # 生成附件
 def generate_attachment(attachment_path, content, file_type):
 	if file_type == 'txt':
-		with open(attachment_path, 'w', encoding='utf-8') as file:
+		with open(attachment_path, 'w', encoding = 'utf-8') as file:
 			file.write(content)
 	elif file_type == 'bin':
 		with open(attachment_path, 'wb') as file:
@@ -110,11 +119,11 @@ def delete_attachment():
 						os.remove(entry.path)
 					elif entry.is_dir():
 						shutil.rmtree(entry.path)
-			print("\033[32m\033[1m[+]\033[0m Successfully deleted files in the [attachment].")
+			good_msg("Successfully deleted files in the [attachment].")
 		except Exception as e:
-			print("\033[31m\033[1m[-]\033[0m Failed to delete files in the [attachment]: " + str(e))
+			err_msg("Failed to delete files in the [attachment]: " + str(e))
 	else:
-		print("\033[31m\033[1m[-]\033[0m Attachment directory [attachment] does not exist!")
+		err_msg("Attachment directory [attachment] does not exist!")
 
 
 # 从字符串提取数
@@ -124,7 +133,7 @@ def get_num_from_string(string):
 		number = match.group()
 		return float(number)
 	else:
-		print("\033[31m\033[1m[-]\033[0m No number found!")
+		err_msg("No number found!")
 		return 0
 
 MB = 1048576
@@ -142,10 +151,10 @@ def send_mail(thread_name, sender, password, host, port,
 
 	global thread_state
 	#初始化 yagmail
-	yag = yagmail.SMTP(user=sender, 
-		password=password, 
-		host=host, 
-		port=port)
+	yag = yagmail.SMTP(user = sender, 
+		password = password, 
+		host = host, 
+		port = port)
 
 	# 邮件主题和内容
 	subject_length = 0
@@ -192,10 +201,9 @@ def send_mail(thread_name, sender, password, host, port,
 				generate_attachment(attachment_path, attachment_contents, file_type='bin')
 
 			#发送邮件
-				yag.send(to=receiver, subject=subject_contents, contents=[body_contents, attachment_path])
+				yag.send(to = receiver, subject = subject_contents, contents = [body_contents, attachment_path])
 			else:
-				yag.send(to=receiver, subject=subject_contents, contents=body_contents)
-
+				yag.send(to = receiver, subject = subject_contents, contents = body_contents)
 			print('  \033[32m\033[1m[+]\033[0m   {}    {}          Email sent successfully.'.format(thread_name, str(i).zfill(3)))
 		except Exception as e:
 			print('  \033[31m\033[1m[-]\033[0m   {}    {}          Email sending failed: {}'.format(thread_name, str(i).zfill(3), str(e)))
@@ -206,7 +214,7 @@ def send_mail(thread_name, sender, password, host, port,
 
 # 显示参数
 def parameter_display(param_dir):
-	print("\033[32m\033[1m[+]\033[0m Parameter analysis:")
+	good_msg("Parameter analysis:")
 	print(param_dir)
 
 # 单参数处理
@@ -220,7 +228,7 @@ def single_parameter(param):
 	elif param in ['-v', '--version']:
 		exit()
 	else:
-		print("\033[31m\033[1m[-]\033[0m Parameter error!")
+		err_msg("Parameter error!")
 		help()
 		exit()
 
@@ -371,7 +379,7 @@ def main():
 
 	if (is_short_param):
 		if (is_error_arg(short_param_dir)):
-			print("\033[31m\033[1m[-]\033[0m Parameter error!")
+			err_msg("Parameter error!")
 			help()
 			exit()
 		else:
@@ -391,7 +399,7 @@ def main():
 				atlength = '0KB'
 	else:
 		if (is_error_arg(long_param_dir)):
-			print("\033[31m\033[1m[-]\033[0m Parameter error!")
+			err_msg("Parameter error!")
 			help()
 			exit()
 		else:
@@ -418,8 +426,8 @@ def main():
 		create_attachment_directory()
 
 	global thread_state
-	print("\033[34m\033[1m[*]\033[0m Creating and starting {} threads...".format(thread_num))
-	print("\033[34m\033[1m[*]\033[0m Start sending emails...\033[0m")
+	note_msg("Creating and starting {} threads...".format(thread_num))
+	note_msg("Start sending emails...")
 	print("\033[33m\033[1m  State Thread Name Email Index  Info\033[0m")
 	try:
 		# 创建线程列表
@@ -435,12 +443,12 @@ def main():
 			thread.join()
 
 		if thread_state:
-			print("\033[32m\033[1m[+]\033[0m Email sending completed.\033[0m")
+			good_msg("Email sending completed.")
 		else:
-			print("\033[31m\033[1m[-]\033[0m Email sending failed!\033[0m")
+			err_msg("Email sending failed!")
 
 	except Exception as e:
-		print("\033[31m\033[1m[-]\033[0m Failed to start thread: " + str(e))
+		err_msg("Failed to start thread: " + str(e))
 
 if __name__ == '__main__':
 	main()
