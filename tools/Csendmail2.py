@@ -70,6 +70,9 @@ def good_msg(msg):
 def note_msg(msg):
 	print("\033[34m\033[1m[*]\033[0m " + msg)
 
+def info_msg_all(msg):
+	print("\033[33m\033[1m" + msg + "\033[0m")
+
 # 生成随机字符串，包括大小写字母、数字和标点符号
 def generate_random_string_with_visible_chars(length):
 	characters = string.ascii_letters + string.digits + string.punctuation
@@ -429,7 +432,7 @@ def main():
 	global thread_state
 	note_msg("Creating and starting {} threads...".format(thread_num))
 	note_msg("Start sending emails...")
-	print("\033[33m\033[1m  State Thread Name Email Index  Info\033[0m")
+	info_msg_all("  State Thread Name Email Index  Info")
 	try:
 		# 创建线程列表
 		thread_list = []
