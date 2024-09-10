@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# 初始化一个空数组
+file_paths=()
+
+fun_name=$1
+
+echo -e "\033[33m\033[1m[*] $fun_name: Searching for function definitions...\033[0m"
+start_time=$(date +%s%N)
+
+# 创建一个临时文件用于保存grep输出结果
+temp_file=$(mktemp)
+
+# 使用 xargs 并行执行 grep 操作，将结果保存到临时文件中
+grep -rl "$fun_name" | xargs -P 8 -I {} sh -c 'echo "$@"' _ {} >> "$temp_file"
+
+# 读取临时文件中的结果并存入数组
+while IFS= read -r line; do
+    file_paths+=("$line")
+done < "$temp_file"
+
+# 删除临时文件
+rm -f "$temp_file"
+
+end_time=$(date +%s%N)
+elapsed_time=$(( (end_time - start_time) / 1000000 ))
+echo -e "\033[32m\033[1m[+] Find function time: $elapsed_time milliseconds.\033[0m"
+
+echo -e "\033[32m\033[1m[+] Finded function:\033[0m"
+for path in "${file_paths[@]}"; do
+    start_addr=`objdump -T $path | grep " $fun_name" | awk '{print $1}' | head -n 1`
+    if [[ "$start_addr" = "0000000000000000" || "$start_addr" = "00000000" || "$start_addr" = "" ]] ; then
+        continue
+    fi
+
+    start_addr=`echo "$start_addr" | sed 's/^0*//'`
+    echo "  fun name: [${fun_name}], path: [${path}], offset: [0x${start_addr}]" 
+done
+
