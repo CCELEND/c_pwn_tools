@@ -3,7 +3,6 @@
 
 import base64
 
-
 def get_multiline_input(prompt="Enter/Paste your text (Ctrl+D or Ctrl+Z to end, 'quit' to exit):"):
     print(prompt)
     lines = []
@@ -25,7 +24,6 @@ def decode_base64(encoded_string: str) -> str:
     decoded_bytes = base64.b64decode(encoded_string.encode('utf-8'))
     return decoded_bytes.decode('utf-8')
 
-
 def main():
     # encoded = encode_base64(test_string)
 
@@ -38,19 +36,13 @@ def main():
         # 去除换行符
         encoded = user_input.replace('\n', '')
 
-        # # 打印结果
-        # print("Original input with newlines:")
-        # print(user_input)
-        # print("\nCleaned input without newlines:")
-        # print(cleaned_input)
-
         if encoded == 'quit':
             print("bye~")
             break
         decoded = decode_base64(encoded)
 
         print("\n[+] Decode:")
-        print(decoded)  # 显示编码和解码的结果
+        print(decoded)  # 显示解码的结果
 
         print("\n")
 
