@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 
 # 输入 base64 字符串，可以包含回车，Ctrl+D 结束输入
-def get_multiline_input(prompt="Enter/Paste your text (Ctrl+D or Ctrl+Z to end, 'quit' to exit):"):
+def get_multiline_input(prompt="Enter/Paste your base64 text (Ctrl+D or Ctrl+Z to end, 'quit' to exit):"):
     print(prompt)
     lines = []
     while True:
@@ -14,7 +14,9 @@ def get_multiline_input(prompt="Enter/Paste your text (Ctrl+D or Ctrl+Z to end, 
             line = input()
         except EOFError:
             break
-        lines.append(line)
+
+        if "--" not in line:
+            lines.append(line)
     return '\n'.join(lines)
 
 # 编码
