@@ -57,7 +57,7 @@ def main():
             print("=================================================\n")
         except:
             print("[*] This is a binary.")
-            file_name = "./1"
+            file_name = "./out"
             base64_to_image(encoded, file_name)
             print("[+] {}: The file has been saved.\n".format(file_name))
 
