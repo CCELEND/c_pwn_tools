@@ -26,17 +26,36 @@ def get_multiline_input(prompt="Enter/Paste your base64 text (Ctrl+D or Ctrl+Z t
             lines.append(line)
     return '\n'.join(lines)
 
-# 编码
-def encode_base64(original_string: str) -> str:
+# utf8编码
+def encode_base64_utf8(original_string: str) -> str:
     """Encode a string using Base64."""
     encoded_bytes = base64.b64encode(original_string.encode('utf-8'))
+    return encoded_bytes.decode('utf-8')
+
+# gb2312编码
+def encode_base64_gb2312(original_string: str) -> str:
+    """Encode a string using Base64."""
+    encoded_bytes = base64.b64encode(original_string.encode('gb2312'))
     return encoded_bytes.decode('utf-8')
 
 # 解码
 def decode_base64(encoded_string: str) -> str:
     """Decode a Base64 encoded string."""
     decoded_bytes = base64.b64decode(encoded_string.encode('utf-8'))
-    return decoded_bytes.decode('utf-8')
+
+    decoded_str = ""
+    try:
+        # 尝试使用UTF-8解码
+        decoded_str = decoded_bytes.decode('utf-8')
+        return decoded_str
+    except:
+        try:
+            # 如果UTF-8失败，尝试使用GB2312解码
+            decoded_str = decoded_bytes.decode('gb2312')
+            return decoded_str
+        except:
+            # 如果两种编码都失败，异常向上传递给父函数
+            raise
 
 def base64_to_image(base64_string, image_path):
     # 去除Base64字符串中的前缀（如果有）
