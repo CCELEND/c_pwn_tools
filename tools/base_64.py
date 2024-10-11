@@ -5,6 +5,13 @@ import base64
 import re
 from datetime import datetime
 
+# 定义一个函数来检查多个字符是否都在字符串中
+def check_characters(characters, string) -> bool:
+    for char in characters:
+        if char in string:
+            return True
+    return False
+
 # 输入 base64 字符串，可以包含回车，Ctrl+D 结束输入
 def get_multiline_input(prompt="Enter/Paste your base64 text (Ctrl+D or Ctrl+Z to end, 'quit' to exit):"):
     print(prompt)
@@ -15,7 +22,7 @@ def get_multiline_input(prompt="Enter/Paste your base64 text (Ctrl+D or Ctrl+Z t
         except EOFError:
             break
 
-        if "--" not in line:
+        if not check_characters(['-', '.'], line):
             lines.append(line)
     return '\n'.join(lines)
 
@@ -59,14 +66,18 @@ def main():
             print(decoded)  # 显示解码的结果
             print("=================================================\n")
         except:
-            # 获取当前时间
-            current_time = datetime.now()
-            formatted_time = current_time.strftime("%Y-%m-%d[%H:%M:%S]")
-            
-            print("[*] This is a binary.")
-            file_name = "./" + formatted_time + "_out"
-            base64_to_image(encoded, file_name)
-            print("[+] {}: The file has been saved.\n".format(file_name))
+            try:
+                # 获取当前时间
+                current_time = datetime.now()
+                formatted_time = current_time.strftime("%Y-%m-%d[%H:%M:%S]")
+                
+                file_name = "./" + formatted_time + "_out"
+                base64_to_image(encoded, file_name)
+
+                print("[*] This is a binary.")
+                print("[+] {}: The file has been saved.\n".format(file_name))
+            except Exception as e:
+                print("[-] " + str(e))
 
 if __name__ == '__main__':
     main()
