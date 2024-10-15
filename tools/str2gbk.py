@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
-# 输入字符串，可以包含回车，Ctrl+D 结束输入
+# 输入字符串，可以包含回车，Ctrl+D 或者 Ctrl+Z 结束输入
 def get_multiline_input(prompt="Enter/Paste your text (Ctrl+D or Ctrl+Z to end, 'quit' to exit):"):
     print(prompt)
     lines = []
@@ -35,7 +35,6 @@ def main():
 
                 gbk_hexs = gbk_hexs + gbk_hex
                 gbk_hexs_corres = gbk_hexs_corres + "\\x" + gbk_hex
-
 
             # 将字符串gbk_hex每两个字符前加上 '\x'
             gbk_hexs_pre = '\\x' + '\\x'.join(gbk_hexs[i:i+2] for i in range(0, len(gbk_hexs), 2))
