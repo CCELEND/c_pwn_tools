@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
-# 输入字符串，可以包含回车，Ctrl+D 结束输入
+# 输入字符串，可以包含回车，Ctrl+D 或者 Ctrl+Z 结束输入
 def get_multiline_input(prompt="Enter/Paste your utf8 hex (Ctrl+D or Ctrl+Z to end, 'quit' to exit):"):
     print(prompt)
     lines = []
