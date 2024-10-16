@@ -100,3 +100,29 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# import tkinter as tk
+# from tkinter import scrolledtext, Menu, messagebox, filedialog
+
+# def save_file():
+#     # 打开文件保存对话框，返回文件路径
+#     file_path = filedialog.asksaveasfilename(
+#         defaultextension=".txt",  # 默认文件扩展名
+#         filetypes=[("Text files", "*.txt"), ("All files", "*.*")],  # 文件类型过滤器
+#         title="保存文件A"
+#     )
+    
+#     if file_path:  # 如果用户没有取消
+#         # 在这里保存文件
+#         with open(file_path, 'w') as file:
+#             file.write("这是保存的内容")  # 可以替换成需要保存的内容
+
+# root = tk.Tk()
+# root.title("文件保存示例")
+
+# # 创建一个保存按钮
+# save_button = tk.Button(root, text="保存文件", command=save_file)
+# save_button.pack(pady=20)
+
+# root.mainloop()
