@@ -102,6 +102,7 @@ def hex2str(code):
 
     except Exception as e:
         string += f"[-] {e}"
+        clear_text(output_text2, output_text3)
 
     output_text.config(state=tk.NORMAL)
     output_text.delete("1.0", tk.END)
@@ -152,6 +153,7 @@ def unicode2str():
 
     except Exception as e:
         decoded_string += f"[-] {e}"
+        clear_text(output_text2, output_text3)
 
     output_text.config(state=tk.NORMAL)
     output_text.delete("1.0", tk.END)
