@@ -175,7 +175,8 @@ input_label = tk.Label(root, text="输入")
 input_label.grid(row=0, column=0, padx=5, pady=0, sticky="w")
 
 # 输入框
-input_text = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=50, height=10)
+input_text = scrolledtext.ScrolledText(root, 
+    wrap=tk.WORD, width=50, height=10)
 input_text.grid(row=1, column=0, padx=10, pady=0, sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 input_text.bind("<Button-3>", lambda event, tw=input_text: show_context_menu(event, tw))
@@ -185,24 +186,30 @@ buttons_frame = tk.Frame(root)
 buttons_frame.grid(row=1, column=1, padx=5, pady=5)
 
 #按钮
-to_gbk_hex_button = tk.Button(buttons_frame, width=20, text="字符串转换 GBK Hex", command=lambda: str2hex("gb2312"))
+to_gbk_hex_button = tk.Button(buttons_frame, 
+    width=20, text="字符串转换 GBK Hex", command=lambda: str2hex("gb2312"))
 to_gbk_hex_button.grid(row=0, column=0, padx=5, pady=5)
 #按钮
-gbk_hex_to_str_button = tk.Button(buttons_frame, width=20, text="GBK Hex 转换字符串", command=lambda: hex2str("gb2312"))
+gbk_hex_to_str_button = tk.Button(buttons_frame, 
+    width=20, text="GBK Hex 转换字符串", command=lambda: hex2str("gb2312"))
 gbk_hex_to_str_button.grid(row=0, column=1, padx=5, pady=5)
 
 #按钮
-to_utf8_hex_button = tk.Button(buttons_frame, width=20, text="字符串转换 utf-8 Hex", command=lambda: str2hex("utf-8"))
+to_utf8_hex_button = tk.Button(buttons_frame, 
+    width=20, text="字符串转换 utf-8 Hex", command=lambda: str2hex("utf-8"))
 to_utf8_hex_button.grid(row=1, column=0, padx=5, pady=5)
 #按钮
-utf8_hex_to_str_button = tk.Button(buttons_frame, width=20, text="utf-8 Hex 转换字符串", command=lambda: hex2str("utf-8"))
+utf8_hex_to_str_button = tk.Button(buttons_frame, 
+    width=20, text="utf-8 Hex 转换字符串", command=lambda: hex2str("utf-8"))
 utf8_hex_to_str_button.grid(row=1, column=1, padx=5, pady=5)
 
 #按钮
-to_unicode_hex_button = tk.Button(buttons_frame, width=20, text="字符串转换 unicode Hex", command=str2unicode)
+to_unicode_hex_button = tk.Button(buttons_frame, 
+    width=20, text="字符串转换 unicode Hex", command=str2unicode)
 to_unicode_hex_button.grid(row=2, column=0, padx=5, pady=5)
 #按钮
-unicode_hex_to_str_button = tk.Button(buttons_frame, width=20, text="unicode Hex 转换字符串", command=unicode2str)
+unicode_hex_to_str_button = tk.Button(buttons_frame, 
+    width=20, text="unicode Hex 转换字符串", command=unicode2str)
 unicode_hex_to_str_button.grid(row=2, column=1, padx=5, pady=5)
 
 # 输出标签
@@ -219,25 +226,30 @@ output_frame.grid_rowconfigure(1, weight=1)     # 使第二个输出框占满整
 output_frame.grid_rowconfigure(2, weight=1)     # 使第三个输出框占满整行
 
 # 输出框1
-output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
+output_text = scrolledtext.ScrolledText(output_frame, 
+    wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
 output_text.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 output_text.bind("<Button-3>", lambda event, tw=output_text: show_context_menu(event, tw))
 
 # 输出框2
-output_text2 = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
+output_text2 = scrolledtext.ScrolledText(output_frame, 
+    wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
 output_text2.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 output_text2.bind("<Button-3>", lambda event, tw=output_text2: show_context_menu(event, tw))
 
 # 输出框3
-output_text3 = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
+output_text3 = scrolledtext.ScrolledText(output_frame, 
+    wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
 output_text3.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 output_text3.bind("<Button-3>", lambda event, tw=output_text3: show_context_menu(event, tw))
 
 # 创建清空按钮
-clear_button = tk.Button(root, width=20, text="清空", command=lambda: clear_text(input_text, output_text, output_text2, output_text3))
+clear_button = tk.Button(root, 
+    width=20, text="清空", 
+    command=lambda: clear_text(input_text, output_text, output_text2, output_text3))
 clear_button.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
 
 root.mainloop()
