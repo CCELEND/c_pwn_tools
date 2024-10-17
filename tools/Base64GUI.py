@@ -6,8 +6,6 @@ import re
 import tkinter as tk
 from tkinter import scrolledtext, Menu, messagebox, filedialog
 
-# from datetime import datetime
-
 # 右键复制
 def copy_text(event, text_widget):
     try:
@@ -105,7 +103,7 @@ def save_file():
         if file_path:  # 如果没有取消
             # 保存文件
             with open(file_path, 'wb') as file:
-                file.write(file_data)  # 保存文件
+                file.write(file_data)
 
     except Exception as e:
         result += f"[-] {e}"
