@@ -63,7 +63,7 @@ def check_characters(characters, string) -> bool:
             return True
     return False
 
-def get_file_type(file_data):
+def get_file_extension(file_data):
 
     signatures = {
         b'\xFF\xD8\xFF\xDB': '.jpeg',
@@ -90,7 +90,7 @@ def save_file():
     result = ""
     try:
         file_data = base64.b64decode(encoded_string)
-        file_extension = get_file_type(file_data)
+        file_extension = get_file_extension(file_data)
 
         # 打开文件保存对话框，返回文件路径
         file_path = filedialog.asksaveasfilename(
@@ -101,9 +101,9 @@ def save_file():
             title = "保存文件"
         )
         if file_path:  # 如果没有取消
-            # 保存文件
             with open(file_path, 'wb') as file:
                 file.write(file_data)
+            result = "[+] The file has been saved."
 
     except Exception as e:
         result += f"[-] {e}"
