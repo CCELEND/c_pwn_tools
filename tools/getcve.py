@@ -1,8 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
-result_2024 = ""
-result_2023 = ""
+result_2024_rce = ""
+result_2024_lpe = ""
+result_2023_rce = ""
+result_2023_lpe = ""
+
 for i in range(1, 40):
     print(f"[+] {i} page.")
 
@@ -24,27 +27,34 @@ for i in range(1, 40):
                 description = columns[1].text.strip()
                 date = columns[3].text.strip()
                 
-                # (description in ["提升", "执行", "win32"])
-                if ("提升" in description or "执行" in description or "win32" in description) and "2024" in date:
-                    # 打印提取的结果
+                # ("提升" in description or "执行" in description or "win32" in description) and "2024" in date
+                if "执行" in description and "2024" in date:
                     avd_id = avd_id.replace("AVD", "CVE")
-                    result_2024 += f'{avd_id} "{description}" {date}\n'
+                    result_2024_rce += f'{avd_id} "{description}" {date}\n'
 
-                if ("提升" in description or "执行" in description or "win32" in description)  and "2023" in date:
-                    # 打印提取的结果
+                if ("提升" in description or "win32" in description) and "2024" in date:
                     avd_id = avd_id.replace("AVD", "CVE")
-                    result_2023 += f'{avd_id} "{description}" {date}\n'
+                    result_2024_lpe += f'{avd_id} "{description}" {date}\n'
+
+                if "执行" in description and "2023" in date:
+                    avd_id = avd_id.replace("AVD", "CVE")
+                    result_2023_rce += f'{avd_id} "{description}" {date}\n'
+
+                if ("提升" in description or "win32" in description) and "2023" in date:
+                    avd_id = avd_id.replace("AVD", "CVE")
+                    result_2023_lpe += f'{avd_id} "{description}" {date}\n'
 
     else:
         print(f'无法访问页面 {i}')
 
-# print(f"[+] CVE-2024:")
-# print(result_2024)
-# print(f"[+] CVE-2023:")
-# print(result_2023)
+with open("CVE-2024_RCE.txt", 'w', encoding='utf-8') as file_2024_rce:
+    file_2024_rce.write(result_2024_rce)
 
-with open("CVE-2024.txt", 'w', encoding='utf-8') as file_2024:
-    file_2024.write(result_2024)
+with open("CVE-2024_LPE.txt", 'w', encoding='utf-8') as file_2024_lpe:
+    file_2024_lpe.write(result_2024_lpe)
 
-with open("CVE-2023.txt", 'w', encoding='utf-8') as file_2023:
-    file_2023.write(result_2023)
+with open("CVE-2023_RCE.txt", 'w', encoding='utf-8') as file_2023_rce:
+    file_2023_rce.write(result_2023_rce)
+
+with open("CVE-2023_LPE.txt", 'w', encoding='utf-8') as file_2023_lpe:
+    file_2023_lpe.write(result_2023_lpe)
