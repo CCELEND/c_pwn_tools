@@ -81,8 +81,6 @@ def get_file_extension(file_data):
         b'\x50\x4B\x03\x08': '.zip',
         b'\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1': '.doc',
         b'%PDF-': '.pdf'
-
-        # Add more signatures as needed
     }
 
     # 根据已知签名检查 file_data 的开头
@@ -218,7 +216,6 @@ output_frame.grid(row=3, column=0, columnspan=2, padx=0, pady=5, sticky="nsew")
 output_frame.grid_columnconfigure(0, weight=1)  # 输入框占满整列
 output_frame.grid_columnconfigure(1, weight=1)  # 按钮占满整列
 output_frame.grid_rowconfigure(0, weight=1)     # 行0权重为1，可伸展
-
 
 # 输出框
 output_text = scrolledtext.ScrolledText(output_frame, 
