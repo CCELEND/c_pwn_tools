@@ -66,13 +66,22 @@ def check_characters(characters, string) -> bool:
 def get_file_extension(file_data):
 
     signatures = {
-        b'\xFF\xD8\xFF\xDB': '.jpeg',
-        b'\xFF\xD8\xFF\xE0': '.jpeg',
+        b'\xFF\xD8\xFF\xDB': '.jpg',
+        b'\xFF\xD8\xFF\xE0': '.jpg',
         b'\x89PNG\r\n\x1A\n': '.png',
-        b'GIF87a': '.gif',
-        b'GIF89a': '.gif',
-        b'%PDF-': '.pdf',
+        b'GIF87a': '.gif', # GIF87a
+        b'GIF89a': '.gif', # GIF89a
+        b'\x42\x4d': '.bmp',
+        b'\x49\x49\x2a\x00': '.tiff',
+        b'\x4d\x4d\x00\x2a': '.tiff',
+        b'\x49\x20\x49': '.tiff',
+        b'\x52\x49\x46\x46': '.riff',
         b'\x50\x4B\x03\x04': '.zip',
+        b'\x50\x4B\x03\x06': '.zip',
+        b'\x50\x4B\x03\x08': '.zip',
+        b'\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1': '.doc',
+        b'%PDF-': '.pdf'
+
         # Add more signatures as needed
     }
 
