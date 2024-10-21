@@ -56,6 +56,17 @@ def clear_text(*text_widgets):
         else:
             text_widget.delete("1.0", tk.END)
 
+# 编辑文本框
+def edit_text(text_widget, data):
+    if text_widget.cget('state') == tk.DISABLED:
+        text_widget.config(state=tk.NORMAL)
+        text_widget.delete("1.0", tk.END)
+        text_widget.insert(tk.END, data)
+        text_widget.config(state=tk.DISABLED)
+    else:
+        text_widget.delete("1.0", tk.END)
+        text_widget.insert(tk.END, data)
+
 # 定义一个函数来检查多个字符是否都在字符串中
 def check_characters(characters, string) -> bool:
     for char in characters:
@@ -115,10 +126,7 @@ def save_file():
     except Exception as e:
         result += f"[-] {e}"
 
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, result)
-    output_text.config(state=tk.DISABLED)
+    edit_text(output_text, result)
 
 # base64 编码
 def encode_base64(code):
@@ -127,10 +135,7 @@ def encode_base64(code):
 
     # utf-8 编码格式输出到输出框
     encoded_string = encoded_bytes.decode('utf-8')
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, encoded_string)
-    output_text.config(state=tk.DISABLED)
+    edit_text(output_text, encoded_string)
 
 # 解码
 def decode_base64():
@@ -152,11 +157,7 @@ def decode_base64():
         except:
             result = "[*] Unknown encoding or binary file, Please save it."
 
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, result)
-    output_text.config(state=tk.DISABLED)
-
+    edit_text(output_text, result)
 
 root = tk.Tk()
 root.title("base64 解码")
