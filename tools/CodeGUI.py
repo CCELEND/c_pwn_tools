@@ -54,6 +54,17 @@ def clear_text(*text_widgets):
         else:
             text_widget.delete("1.0", tk.END)
 
+# 编辑文本框
+def edit_text(text_widget, data):
+    if text_widget.cget('state') == tk.DISABLED:
+        text_widget.config(state=tk.NORMAL)
+        text_widget.delete("1.0", tk.END)
+        text_widget.insert(tk.END, data)
+        text_widget.config(state=tk.DISABLED)
+    else:
+        text_widget.delete("1.0", tk.END)
+        text_widget.insert(tk.END, data)
+
 def str2hex(code):
     string = input_text.get("1.0", tk.END)
 
@@ -73,20 +84,10 @@ def str2hex(code):
     except Exception as e:
         hexs += f"[-] {e}"
 
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, hexs)
-    output_text.config(state=tk.DISABLED)
+    edit_text(output_text, hexs)
+    edit_text(output_text2, hexs_pre)
+    edit_text(output_text3, hexs_corres)
 
-    output_text2.config(state=tk.NORMAL)
-    output_text2.delete("1.0", tk.END)
-    output_text2.insert(tk.END, hexs_pre)
-    output_text2.config(state=tk.DISABLED)
-
-    output_text3.config(state=tk.NORMAL)
-    output_text3.delete("1.0", tk.END)
-    output_text3.insert(tk.END, hexs_corres)
-    output_text3.config(state=tk.DISABLED)
 
 def hex2str(code):
     hexs = input_text.get("1.0", tk.END)
@@ -104,10 +105,7 @@ def hex2str(code):
         string += f"[-] {e}"
 
     clear_text(output_text2, output_text3)
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, string)
-    output_text.config(state=tk.DISABLED)
+    edit_text(output_text, string)
 
 def str2unicode():
     string = input_text.get("1.0", tk.END)
@@ -128,20 +126,9 @@ def str2unicode():
     except Exception as e:
         unicode_hexs += f"[-] {e}"
 
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, unicode_hexs)
-    output_text.config(state=tk.DISABLED)
-
-    output_text2.config(state=tk.NORMAL)
-    output_text2.delete("1.0", tk.END)
-    output_text2.insert(tk.END, unicode_hexs_pre)
-    output_text2.config(state=tk.DISABLED)
-
-    output_text3.config(state=tk.NORMAL)
-    output_text3.delete("1.0", tk.END)
-    output_text3.insert(tk.END, unicode_hexs_corres)
-    output_text3.config(state=tk.DISABLED)
+    edit_text(output_text, unicode_hexs)
+    edit_text(output_text2, unicode_hexs_pre)
+    edit_text(output_text3, unicode_hexs_corres)
 
 def unicode2str():
     unicode_str = input_text.get("1.0", tk.END)
@@ -155,10 +142,7 @@ def unicode2str():
         decoded_string += f"[-] {e}"
 
     clear_text(output_text2, output_text3)
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, decoded_string)
-    output_text.config(state=tk.DISABLED)
+    edit_text(output_text, decoded_string)
 
 
 root = tk.Tk()
@@ -222,7 +206,7 @@ output_label.grid(row=2, column=0, padx=5, pady=0, sticky="w")
 output_frame = tk.Frame(root)
 output_frame.grid(row=3, column=0, columnspan=2, padx=5, pady=0, sticky="nsew")
 # 配置输出框架的列和行的伸展
-output_frame.grid_columnconfigure(0, weight=1)  # 使输出框占满整行
+output_frame.grid_columnconfigure(0, weight=1)  # 使输出框占满整列
 output_frame.grid_rowconfigure(0, weight=1)     # 使第一个输出框占满整行
 output_frame.grid_rowconfigure(1, weight=1)     # 使第二个输出框占满整行
 output_frame.grid_rowconfigure(2, weight=1)     # 使第三个输出框占满整行
