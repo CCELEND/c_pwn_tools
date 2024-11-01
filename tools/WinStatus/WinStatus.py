@@ -79,9 +79,9 @@ def edit_text(text_widget, data):
 		text_widget.insert(tk.END, data)
 
 def STATUSVAL_to_STATUS():
+
 	STATUSVAL_STR = input_text.get("1.0", tk.END)
 	STATUSVAL_STR = STATUSVAL_STR.strip()
-
 	if STATUSVAL_STR == "":
 		clear_text(output_text, output_text2)
 		return
@@ -111,9 +111,9 @@ def STATUSVAL_to_STATUS():
 
 
 def STATUS_to_STATUSVAL():
+	
 	STATUS_STR = input_text.get("1.0", tk.END)
 	STATUS = STATUS_STR.strip()
-
 	if STATUS == "":
 		clear_text(output_text, output_text2)
 		return
