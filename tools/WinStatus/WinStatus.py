@@ -107,11 +107,10 @@ def STATUSVAL_to_STATUS():
 
 	edit_text(output_text, STATUSVAL_STR)
 	edit_text(output_text2, STATUS_STR)
-	# edit_text(output_text3, hexs_corres)
 
 
 def STATUS_to_STATUSVAL():
-	
+
 	STATUS_STR = input_text.get("1.0", tk.END)
 	STATUS = STATUS_STR.strip()
 	if STATUS == "":
@@ -139,68 +138,78 @@ root.title("WinStatus")
 root.grid_columnconfigure(0, weight=1)  # 第0列会随着窗口调整大小
 root.grid_columnconfigure(1, weight=1)  # 第1列会随着窗口调整大小
 
-root.grid_rowconfigure(1, weight=1)     # 第1行会随着窗口调整大小
-root.grid_rowconfigure(3, weight=1)     # 第3行会随着窗口调整大小
+root.grid_rowconfigure(0, weight=1)     # 第1行会随着窗口调整大小
+root.grid_rowconfigure(1, weight=1)     # 第3行会随着窗口调整大小
+
+
+# 创建一个新的 Frame 用于输入文本框
+input_frame = tk.Frame(root)
+input_frame.grid(row=0, column=0, columnspan=2, padx=0, pady=0, sticky="nsew")
+# 配置输出框架的列和行的伸展
+input_frame.grid_columnconfigure(0, weight=1)  # 使输出框占满整列
+input_frame.grid_columnconfigure(1, weight=1)  # 使输出框占满整列
+input_frame.grid_rowconfigure(1, weight=1)     # 使输出框占满整行
 
 
 # 输入标签
-input_label = tk.Label(root, text="输入")
+input_label = tk.Label(input_frame, text="输入状态码值 / 状态码")
 input_label.grid(row=0, column=0, padx=5, pady=0, sticky="w")
 
 # 输入框
-input_text = scrolledtext.ScrolledText(root, 
-	wrap=tk.WORD, width=50, height=10)
-input_text.grid(row=1, column=0, padx=(10,0), pady=0, sticky="nsew")
+input_text = scrolledtext.ScrolledText(input_frame, 
+	wrap=tk.WORD, width=50, height=3)
+input_text.grid(row=1, column=0, columnspan=2, padx=10, pady=0, sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 input_text.bind("<Button-3>", lambda event, tw=input_text: show_context_menu(event, tw))
 
-# 按钮框架和输入框同一行
-buttons_frame = tk.Frame(root)
-buttons_frame.grid(row=1, column=1, padx=5, pady=5)
-
 #按钮
-STATUSVAL_to_STATUS_button = tk.Button(buttons_frame, 
-	width=20, text="状态码值转换状态码", command=STATUSVAL_to_STATUS)
-STATUSVAL_to_STATUS_button.grid(row=0, column=0, padx=5, pady=5)
+STATUSVAL_to_STATUS_button = tk.Button(input_frame, 
+	width=20, text="状态码值->状态码", command=STATUSVAL_to_STATUS)
+STATUSVAL_to_STATUS_button.grid(row=2, column=0, padx=0, pady=(10,0))
 #按钮
-STATUS_to_STATUSVAL_button = tk.Button(buttons_frame, 
-	width=20, text="状态码转换状态码值", command=STATUS_to_STATUSVAL)
-STATUS_to_STATUSVAL_button.grid(row=0, column=1, padx=5, pady=5)
-
-
-# 输出标签
-output_label = tk.Label(root, text="输出")
-output_label.grid(row=2, column=0, padx=5, pady=0, sticky="w")
+STATUS_to_STATUSVAL_button = tk.Button(input_frame, 
+	width=20, text="状态码->状态码值", command=STATUS_to_STATUSVAL)
+STATUS_to_STATUSVAL_button.grid(row=2, column=1, padx=0, pady=(10,0))
 
 # 创建一个新的 Frame 用于输出文本框
 output_frame = tk.Frame(root)
-output_frame.grid(row=3, column=0, columnspan=2, padx=5, pady=0, sticky="nsew")
+output_frame.grid(row=1, column=0, columnspan=2, padx=0, pady=0, sticky="nsew")
 # 配置输出框架的列和行的伸展
 output_frame.grid_columnconfigure(0, weight=1)  # 使输出框占满整列
-output_frame.grid_rowconfigure(0, weight=1)     # 使第一个输出框占满整行
-output_frame.grid_rowconfigure(1, weight=1)     # 使第二个输出框占满整行
-# output_frame.grid_rowconfigure(2, weight=1)     # 使第三个输出框占满整行
+output_frame.grid_columnconfigure(1, weight=1)  # 使输出框占满整列
+output_frame.grid_rowconfigure(1, weight=1)     # 使第一个输出框占满整行
+output_frame.grid_rowconfigure(2, weight=1)     # 使第二个输出框占满整行
+output_frame.grid_rowconfigure(4, weight=1)     # 使第三个输出框占满整行
+
+# 输出标签
+output_label = tk.Label(output_frame, text="输出")
+output_label.grid(row=0, column=0, padx=5, pady=0, sticky="w")
+
 
 # 输出框1
 output_text = scrolledtext.ScrolledText(output_frame, 
-	wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
-output_text.grid(row=0, column=0, padx=5, pady=0, sticky="nsew")
+	wrap=tk.WORD, width=50, height=3, state=tk.DISABLED)
+output_text.grid(row=1, column=0, columnspan=2, padx=10, pady=0, sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 output_text.bind("<Button-3>", lambda event, tw=output_text: show_context_menu(event, tw))
 
 # 输出框2
 output_text2 = scrolledtext.ScrolledText(output_frame, 
-	wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
-output_text2.grid(row=1, column=0, padx=5, pady=10, sticky="nsew")
+	wrap=tk.WORD, width=50, height=3, state=tk.DISABLED)
+output_text2.grid(row=2, column=0, columnspan=2, padx=10, pady=(5,0), sticky="nsew")
 # 绑定鼠标右键点击事件到上下文菜单
 output_text2.bind("<Button-3>", lambda event, tw=output_text2: show_context_menu(event, tw))
 
-# # 输出框3
-# output_text3 = scrolledtext.ScrolledText(output_frame, 
-#     wrap=tk.WORD, width=50, height=5, state=tk.DISABLED)
-# output_text3.grid(row=2, column=0, padx=5, pady=0, sticky="nsew")
-# # 绑定鼠标右键点击事件到上下文菜单
-# output_text3.bind("<Button-3>", lambda event, tw=output_text3: show_context_menu(event, tw))
+# 输出标签
+describe_label = tk.Label(output_frame, text="描述")
+describe_label.grid(row=3, column=0, padx=5, pady=0, sticky="w")
+
+# 用来输出状态的详细信息
+output_describe_text = scrolledtext.ScrolledText(output_frame, 
+    wrap=tk.WORD, width=50, height=3, state=tk.DISABLED)
+output_describe_text.grid(row=4, column=0, columnspan=2, padx=10, pady=0, sticky="nsew")
+# 绑定鼠标右键点击事件到上下文菜单
+output_describe_text.bind("<Button-3>", lambda event, tw=output_describe_text: show_context_menu(event, tw))
 
 # 创建清空按钮
 clear_button = tk.Button(root, 
